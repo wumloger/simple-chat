@@ -1,16 +1,129 @@
 {
-	"pages": [
+	"pages": [{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
 		{
 			"path": "pages/index",
 			"style": {
 				"navigationBarTitleText": "stomp-demo"
 			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/HM-chat/HM-chat",
+			"style": {
+				"navigationBarTitleText": "HM-chat聊天室",
+				"navigationBarBackgroundColor": "#f2f2f2",
+				"backgroundColorTop": "#e5e5e5",
+				"backgroundColorBottom": "#e5e5e5",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
+				}
+			}
+		}, {
+			"path": "pages/HM-chat/HM-details/HM-details",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff"
+			}
+		}, {
+			"path": "pages/HM-chat/HM-hand/HM-hand",
+			"style": {
+				"navigationBarBackgroundColor": "#cf3c35",
+				"navigationBarTextStyle": "white",
+				"navigationBarTitleText": "发红包",
+				"backgroundColorTop": "#cf3c35",
+				"backgroundColorBottom": "#fff",
+				"app-plus": {
+					"softinputNavBar": "none",
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/friend/friend",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/group/group",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/chat/group-chat",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
 		}
 	],
+	"app-plus": {
+		"softinputMode": "adjustPan"
+	},
+	"easycom": {
+		"^u-(.*)": "@/uni_modules/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom"
+	},
+	"tabBar": {
+		"backgroundColor": "linear-gradient(45deg, #0081ff, #1cbbb4)",
+		"color": "#00D1FB",
+		"borderStyle": "white",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/icon/tarbar/message.png",
+				"selectedIconPath": "static/icon/tarbar/message-fill.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/friend/friend",
+				"iconPath": "static/icon/tarbar/user.png",
+				"selectedIconPath": "static/icon/tarbar/user-fill.png",
+				"text": "好友"
+			},
+			{
+				"pagePath": "pages/group/group",
+				"iconPath": "static/icon/tarbar/ungroup.png",
+				"selectedIconPath": "static/icon/tarbar/group.png",
+				"text": "群组"
+			},
+			{
+				"pagePath": "pages/home/home",
+				"iconPath": "static/icon/tarbar/home.png",
+				"selectedIconPath": "static/icon/tarbar/home-fill.png",
+				"text": "我的"
+			}
+		]
 	}
 }

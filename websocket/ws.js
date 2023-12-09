@@ -1,6 +1,10 @@
-import { Stomp } from './stomp.js'
+import {
+	Stomp
+} from './stomp.js'
 import UniWebSocket from './uniWebSocket.js'
-import { wsUrl, refreshToken } from '@/config/config.js'
+import {
+	wsUrl
+} from '@/config/config.js'
 
 /**
  * WebSocket stomp 实例
@@ -64,10 +68,7 @@ class Ws {
 		ws.onerror = () => {
 			// 重连
 			this.reconnectId = setTimeout(() => {
-				// 刷新token
-				refreshToken().then(() => {
-					this.reconnect()
-				})
+				this.reconnect()
 			}, this.reconnectInterval)
 		}
 	}
@@ -100,7 +101,7 @@ class Ws {
 		// 清空所有除订阅缓存
 		this.subscribes = {}
 	}
-	
+
 	/**
 	 * 订阅
 	 * @param {Object} destination 主题
@@ -111,12 +112,19 @@ class Ws {
 			return
 		} else if (this.client && this.client.connected) { // 已连接：调用订阅，缓存订阅信息
 			let subscribe = this.client.subscribe(destination, res => callback(res))
-			this.subscribes[destination] = { callback: callback, subscribed: true, subscribe: subscribe }
+			this.subscribes[destination] = {
+				callback: callback,
+				subscribed: true,
+				subscribe: subscribe
+			}
 		} else { // 未连接：缓存订阅信息
-			this.subscribes[destination] = { callback: callback, subscribed: false }
+			this.subscribes[destination] = {
+				callback: callback,
+				subscribed: false
+			}
 		}
 	}
-	
+
 	/**
 	 * 取消订阅
 	 * @param {Object} destination 主题
@@ -129,7 +137,7 @@ class Ws {
 			delete this.subscribes[destination]
 		}
 	}
-	
+
 	/**
 	 * 向服务器发送消息
 	 * @param {Object} destination 主题
