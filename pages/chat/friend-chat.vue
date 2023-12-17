@@ -12,10 +12,11 @@
 				:id="'msg_'+item.id" :msgType="item.msgType" :time="item.time" v-for="item in msgList"
 				:nickname="item.nickname" source="0" :status="item.status" @reView="reView"
 				@friendInfo="tofriendInfo(item.fromUserId)" :msgId="item.id+''"
-				:targetId="item.fromUserId==userId?userId+'':item.fromUserId+''" @msgHandle="msgHandle">
+				:targetId="item.fromUserId==userId?userId+'':item.fromUserId+''" @msgHandle="msgHandle(item.id)">
 			</msg>
 		</mescroll-body>
 		<inputBox @sendMsg="sendMsg" :bottom="inputBoxHeight"></inputBox>
+		<u-toast ref="uToast"></u-toast>
 	</view>
 </template>
 
@@ -259,7 +260,14 @@
 			},
 			//下拉加载更多
 			async getMoreMsg() {
-				await request("/message/getGroupMsg/" + id + "/" + this.pageNo + 1, "GET");
+				const no = ++this.pageNo;
+				const res = await request("/message/getFriendMsg/" + this.userId + "/" + no, "GET");
+				console.log(res);
+				const msgs = res.data.records;
+				if (msgs.length <= 0) {
+					this.pageNo = 1;
+				}
+				this.msgList.unshift(...msgs);
 			},
 			//获取好友信息
 			async getFriendInfo() {
@@ -282,8 +290,24 @@
 
 			},
 			// 撤销/删除
-			async msgHandle(val) {
-				console.log("msgHandle");
+			async msgHandle(id) {
+				request("/message/back/0/" + id, "POST").then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.$refs.uToast.show({
+							message: '撤回成功',
+							type: 'success',
+							duration: '500'
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: '撤回失败' + res.msg,
+							type: 'error',
+							duration: '1000'
+						})
+					}
+					this.init();
+				})
 			},
 			//键盘下拉事件
 			onKeyboardHeightChange(height) {

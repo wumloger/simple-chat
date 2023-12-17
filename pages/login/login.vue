@@ -143,6 +143,7 @@
 					this.$refs.uToast.show({
 							type: 'success',
 							message: res.msg,
+							duration: '1000'
 						}),
 						_this.login();
 				} else {

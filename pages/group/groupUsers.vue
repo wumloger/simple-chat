@@ -169,9 +169,12 @@
 		onShow() {
 			this.getGroupUser();
 		}
+
 	}
 </script>
 
 <style>
-
+	.move-cur0 {
+		transform: translateX(-130upx)
+	}
 </style>

@@ -172,7 +172,20 @@
 				this.addShow = false;
 				this.join();
 
-			}
+			},
+			copy() {
+				const _this = this;
+				uni.setClipboardData({
+					data: this.id,
+					showToast: false,
+					success: function() {
+						_this.$refs.uToast.show({
+							message: '复制成功',
+							type: 'success'
+						})
+					}
+				});
+			},
 		},
 		onLoad(data) {
 			console.log(data.id);

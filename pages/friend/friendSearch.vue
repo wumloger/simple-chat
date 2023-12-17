@@ -8,7 +8,7 @@
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
 				<input @input="$u.debounce(searchUser, 500)" v-model.trim="searchValue" :adjust-position="false"
-					type="text" placeholder="搜索图片、文章、视频" confirm-type="search"></input>
+					type="text" placeholder="搜索好友" confirm-type="search"></input>
 			</view>
 			<view class="action" @click="show = true">
 				<text>{{selectedValue.name}}</text>

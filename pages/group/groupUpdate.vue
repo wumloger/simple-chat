@@ -32,10 +32,17 @@
 				<u-text text="公告" type="tips" style="padding-left:10upx;"></u-text>
 				<u--textarea v-model="groupInfo.notice" :disabled="edit" border="none"></u--textarea>
 			</u-cell-group>
+			<u-cell-group v-if="groupInfo.createBy === userId"
+				:customStyle="{backgroundColor:'white',margin:'10upx',marginTop:'40upx'}">
+				<u-button text="解散群聊" plain type="error" @click="deleteGroup"></u-button>
+			</u-cell-group>
 		</template>
 
-		<u-toast ref="uToast"></u-toast>
 
+		<u-toast ref="uToast"></u-toast>
+		<u-modal :show="show" title="是否确定解散？" content='注意!该操作一经确认无法撤回!请谨慎选择!' :showCancelButton="true"
+			:buttonReverse="true" :closeOnClickOverlay="true" @close="show=false" @cancel="show=false"
+			@confirm="modelConfirm"></u-modal>
 	</view>
 </template>
 
@@ -48,9 +55,11 @@
 		data() {
 			return {
 				id: '',
+				userId: '',
 				groupInfo: null,
 				edit: true,
-				fileList: []
+				fileList: [],
+				show: false
 			}
 		},
 		methods: {
@@ -114,6 +123,33 @@
 						}
 					})
 				}
+			},
+			deleteGroup() {
+				this.show = true;
+			},
+			modelConfirm() {
+				request("/group/delete/" + this.id, "DELETE").then((res) => {
+					console.log(res);
+					if (res.code == 200) {
+						this.$refs.uToast.show({
+							message: '解散成功！',
+							type: 'success',
+							duration: '1000',
+							complete: () => {
+								uni.switchTab({
+									url: '/pages/index/index'
+								})
+							}
+						})
+					} else {
+						this.$refs.uToast.show({
+							message: '解散失败' + res.msg,
+							type: 'error',
+							duration: '1000'
+						})
+					}
+				})
+				this.show = false
 			}
 		},
 		onShow() {
@@ -121,6 +157,7 @@
 		},
 		onLoad(data) {
 			this.id = data.id;
+			this.userId = uni.getStorageSync("userInfo").id;
 		}
 	}
 </script>

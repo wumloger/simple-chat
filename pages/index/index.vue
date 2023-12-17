@@ -10,12 +10,12 @@
 						加好友
 					</div>
 					<u-line></u-line>
-					<div>
+					<div @click="toGroupSearch">
 						<text style="margin-right: 5upx;" class="cuIcon-group"></text>
 						加群
 					</div>
 					<u-line></u-line>
-					<div>
+					<div @click="toCreatGroup">
 						<text style="margin-right: 5upx;" class="cuIcon-message"></text>
 						创建群聊
 					</div>
@@ -27,7 +27,7 @@
 		<view class="msg_list">
 			<view class="cu-list menu-avatar margin-top-xs margin-bottom-xs" v-if="messageList">
 				<view @tap="toChat(item.targetId,item.id,item.source)" class="cu-item"
-					:class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in messageList"
+					:class="modalName=='move-box-'+ index?'move-cur130':''" v-for="(item,index) in messageList"
 					:key="index" @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd"
 					:data-target="'move-box-' + index">
 					<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+item.targetAvatar+')'}]">
@@ -43,8 +43,8 @@
 						<view class="cu-tag round bg-red sm" v-if="item.unreadNum > 0">{{item.unreadNum}}</view>
 					</view>
 					<view class="move">
-						<view class="bg-grey">置顶</view>
-						<view class="bg-red">删除</view>
+						<view class="bg-red" @tap.stop="remove(item.id)">删除</view>
+						<view class="bg-grey">空白</view>
 					</view>
 				</view>
 			</view>
@@ -130,6 +130,26 @@
 					url: '/pages/friend/friendSearch'
 				})
 			},
+			toGroupSearch() {
+				this.show = false;
+				uni.navigateTo({
+					url: '/pages/group/groupSearch'
+				})
+			},
+			toCreatGroup() {
+				this.show = false;
+				uni.navigateTo({
+					url: '/pages/group/createGroup'
+				})
+			},
+			remove(id) {
+				const _this = this;
+				const userId = uni.getStorageSync("userInfo").id;
+				request("/message/deleteUnread/" + id, "DELETE").then((res) => {
+
+					_this.getMessageList(userId);
+				})
+			},
 
 
 			// ListTouch触摸开始，获取触摸点距盒子左侧的距离
@@ -194,5 +214,9 @@
 		top: -4%;
 		left: 82%;
 		transform: rotate(-45deg);
+	}
+
+	.move-cur130 {
+		transform: translateX(-130upx)
 	}
 </style>
