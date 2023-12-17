@@ -2,15 +2,34 @@
 	<view class="container">
 		<cu-custom bgColor="bg-gradual-blue">
 			<block slot="content">消息</block>
-			<block slot="right">
-				<view>image</view>
+			<block slot="right" style="position: relative;">
+				<u-icon color="#000000" name="plus-circle" @tap="checkout()"></u-icon>
+				<view class="modal animation-fade " v-if="show">
+					<div @click="toFriendSearch">
+						<text style="margin-right: 5upx;" class="cuIcon-friendadd"></text>
+						加好友
+					</div>
+					<u-line></u-line>
+					<div>
+						<text style="margin-right: 5upx;" class="cuIcon-group"></text>
+						加群
+					</div>
+					<u-line></u-line>
+					<div>
+						<text style="margin-right: 5upx;" class="cuIcon-message"></text>
+						创建群聊
+					</div>
+					<u-line></u-line>
+				</view>
 			</block>
 		</cu-custom>
+
 		<view class="msg_list">
 			<view class="cu-list menu-avatar margin-top-xs margin-bottom-xs" v-if="messageList">
-				<view @tap="toChat(item.targetId)" class="cu-item" :class="modalName=='move-box-'+ index?'move-cur':''"
-					v-for="(item,index) in messageList" :key="index" @touchstart="ListTouchStart"
-					@touchmove="ListTouchMove" @touchend="ListTouchEnd" :data-target="'move-box-' + index">
+				<view @tap="toChat(item.targetId,item.id,item.source)" class="cu-item"
+					:class="modalName=='move-box-'+ index?'move-cur':''" v-for="(item,index) in messageList"
+					:key="index" @touchstart="ListTouchStart" @touchmove="ListTouchMove" @touchend="ListTouchEnd"
+					:data-target="'move-box-' + index">
 					<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+item.targetAvatar+')'}]">
 					</view>
 					<view class="content">
@@ -21,7 +40,7 @@
 					</view>
 					<view class="action">
 						<view class="text-grey text-xs">{{item.msgTime}}</view>
-						<view class="cu-tag round bg-red sm">{{item.unreadNum}}</view>
+						<view class="cu-tag round bg-red sm" v-if="item.unreadNum > 0">{{item.unreadNum}}</view>
 					</view>
 					<view class="move">
 						<view class="bg-grey">置顶</view>
@@ -45,6 +64,7 @@
 				modalName: null,
 				listTouchStart: 0,
 				listTouchDirection: null,
+				show: false
 			}
 		},
 		onLoad() {
@@ -55,14 +75,18 @@
 			ws.subscribe("/user/" + userId + "/queue/private", (res) => {
 				console.log(res.body);
 				const message = JSON.parse(res.body);
-				this.$EventBus.$emit("private:" + message.fromUserId, message);
+				this.$EventBus.$emit("private:" + userId, message);
 
 			});
 			//订阅群组
 			this.getGroupsAndSubscribe();
-			//获取消息列表
-			this.getMessageList(userId);
 
+
+		},
+		onShow() {
+			//获取消息列表
+			const userId = uni.getStorageSync("userInfo").id;
+			this.getMessageList(userId);
 		},
 		methods: {
 			async getGroupsAndSubscribe() {
@@ -83,9 +107,27 @@
 				console.log(res);
 			},
 
-			toChat(id) {
+			toChat(targetId, id, source) {
+				const userId = uni.getStorageSync("userInfo").id;
+				const _this = this;
+				request("/message/clearUnread/" + id, "PUT").then(() => {
+					_this.getMessageList(userId);
+				})
+				if (source == 1) {
+					uni.navigateTo({
+						url: '/pages/chat/group-chat?id=' + targetId
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/chat/friend-chat?id=' + targetId
+					})
+				}
+
+			},
+			toFriendSearch() {
+				this.show = false;
 				uni.navigateTo({
-					url: '/pages/chat/group-chat?id=' + id
+					url: '/pages/friend/friendSearch'
 				})
 			},
 
@@ -106,13 +148,51 @@
 					this.modalName = null
 				}
 				this.listTouchDirection = null
+			},
+			checkout() {
+				this.show = !this.show
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.uni-input {
 		height: 40px;
+	}
+
+	.modal {
+		z-index: 999;
+		height: fit-content;
+		width: 280upx;
+		position: absolute;
+		top: 60upx;
+		left: -232upx;
+		border-radius: 5%;
+
+		div {
+			width: 100%;
+			background-color: white;
+			height: 100upx;
+			color: black;
+			text-align: center;
+			line-height: 100upx;
+			border-radius: 5%;
+		}
+
+		div:active {
+			background-color: #f5f5f5;
+		}
+	}
+
+	.modal::before {
+		content: '';
+		height: 10%;
+		width: 10%;
+		background-color: white;
+		position: absolute;
+		top: -4%;
+		left: 82%;
+		transform: rotate(-45deg);
 	}
 </style>

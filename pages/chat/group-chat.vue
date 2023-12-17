@@ -5,16 +5,17 @@
 			<block slot="content" v-if="groupInfo">{{groupInfo.name}}</block>
 			<block slot="content" v-else></block>
 			<block slot="right">
-				<view @click="getGroupInfo">更多</view>
+				<view @click="toGroupInfo(id)" class="cuIcon-more"></view>
 			</block>
 		</cu-custom>
 		<mescroll-body class="mescroll" :safearea="true" ref="mescrollRef" :bottom="msgHeight" :top="topSize"
 			@init="mescrollInit" :down="downOption" @down="downEvent" :up="upOption">
 			<msg :position="item.fromUserId==userId?'right':'left'" :avatar="item.fromUserAvatar"
 				:content="item.msgContent" :id="'msg_'+item.id" :msgType="item.msgType" v-for="item in msgList"
-				:nickname="item.fromUserNickname" source="1" :status="item.status" @friendInfo="friendInfo"
-				:msgId="item.id+''" :targetId="item.fromUserId==userId?userId+'':item.fromUserId+''"
-				@msgHandle="msgHandle" :time="item.time"></msg>
+				:nickname="item.fromUserNickname" source="1" :status="item.status"
+				@friendInfo="friendInfo(item.fromUserId)" :msgId="item.id+''"
+				:targetId="item.fromUserId==userId?userId+'':item.fromUserId+''" @msgHandle="msgHandle"
+				:time="item.time"></msg>
 		</mescroll-body>
 		<inputBox @sendMsg="sendMsg" :bottom="inputBoxHeight"></inputBox>
 	</view>
@@ -70,29 +71,26 @@
 				topSize: '',
 				//监听键盘调整高度
 				msgHeight: '108upx',
-				inputBoxHeight: -2
+				inputBoxHeight: -2,
+				id: ''
 			}
 		},
 
 		onLoad(data) {
 			const id = data.id;
+			this.id = id;
 			console.log(id);
 			this.init(id);
 			// 初始化滚动相关信息
 			this.initScroll();
-			const groups = uni.getStorageSync("groupList");
 			this.userInfo = uni.getStorageSync("userInfo");
 			this.userId = uni.getStorageSync("userInfo").id;
 			//获取群组信息
-			groups.forEach((item) => {
-				console.log(item);
-				if (item.id === id) {
-					this.groupInfo = item
-				}
-			})
+			this.getGroupInfo(id);
+
 			//监听事件总线
 			const _this = this
-			this.$EventBus.$on('group:' + this.groupInfo.id, function(data) {
+			this.$EventBus.$on('group:' + id, function(data) {
 				console.log("事件总线", data)
 				if (data.fromUserId !== _this.userId) {
 					_this.pushMsg(data)
@@ -116,9 +114,6 @@
 		onShow() {
 
 
-		},
-		onUnload() {
-			uni.offKeyboardHeightChange(listener)
 		},
 
 		methods: {
@@ -147,6 +142,11 @@
 				setTimeout(() => {
 					mescroll.scrollTo(99999, 0);
 				}, 1000)
+			},
+			async getGroupInfo(id) {
+				const res = await request("/group/get/" + id);
+				console.log(res);
+				this.groupInfo = res.data;
 			},
 			async sendMsg(msg) {
 				const {
@@ -280,12 +280,22 @@
 				await request("/message/getGroupMsg/" + id + "/" + this.pageNo + 1, "GET");
 			},
 			//获取群组信息
-			getGroupInfo() {
-
+			toGroupInfo(id) {
+				uni.navigateTo({
+					url: '/pages/group/groupInfo?id=' + id
+				})
 			},
 			// 好友信息
-			friendInfo(friendId) {
-				console.log("朋友信息");
+			friendInfo(id) {
+				if (id == this.userId) {
+					uni.switchTab({
+						url: '/pages/home/home'
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/friend/friendInfo?id=' + id
+					})
+				}
 			},
 			// 撤销/删除
 			async msgHandle(val) {

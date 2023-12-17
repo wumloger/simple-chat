@@ -133,7 +133,7 @@
 		mounted() {
 			const _this = this
 			this.AUDIO.onEnded(() => {
-				debugger
+
 				//播放结束
 				_this.playClass = false
 			})

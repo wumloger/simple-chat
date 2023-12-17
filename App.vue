@@ -2,6 +2,8 @@
 	import ws from '@/websocket/ws.js';
 	import request from '@/api/request.js'
 	import Vue from 'vue';
+	import router from './router.js';
+	router();
 	export default {
 		onLaunch: function() {
 			uni.getSystemInfo({
