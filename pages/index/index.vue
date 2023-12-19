@@ -68,9 +68,14 @@
 			}
 		},
 		onLoad() {
+
+		},
+		onShow() {
+			//获取消息列表
+			const userId = uni.getStorageSync("userInfo").id;
+			this.getMessageList(userId);
 			// 模拟获取token，此步操作应在登录时去做
 			ws.connect();
-			const userId = uni.getStorageSync("userInfo").id;
 			//订阅私人队列
 			ws.subscribe("/user/" + userId + "/queue/private", (res) => {
 				console.log(res.body);
@@ -80,13 +85,6 @@
 			});
 			//订阅群组
 			this.getGroupsAndSubscribe();
-
-
-		},
-		onShow() {
-			//获取消息列表
-			const userId = uni.getStorageSync("userInfo").id;
-			this.getMessageList(userId);
 		},
 		methods: {
 			async getGroupsAndSubscribe() {

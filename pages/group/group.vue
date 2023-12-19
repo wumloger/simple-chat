@@ -4,7 +4,9 @@
 			<block slot="content">群组</block>
 		</cu-custom>
 		<u-cell-group :customStyle="{backgroundColor:'#FFFFFF',margin:'10upx'}">
-			<u-cell title="我收到的申请" isLink url="/pages/group/invitation/tome"></u-cell>
+			<u-cell title="我收到的申请" isLink url="/pages/group/invitation/tome">
+				<u-badge slot="value" max="99" :value="count" v-show="count > 0"></u-badge>
+			</u-cell>
 			<u-cell title="我发出的申请" isLink url="/pages/group/invitation/toothers"></u-cell>
 		</u-cell-group>
 		<u-cell-group :customStyle="{backgroundColor:'#FFFFFF',margin:'10upx'}">
@@ -49,6 +51,7 @@
 					[],
 					[]
 				],
+				count: 0
 			}
 		},
 		methods: {
@@ -73,10 +76,15 @@
 				uni.navigateTo({
 					url: '/pages/chat/group-chat?id=' + id
 				})
+			},
+			async getCount() {
+				const res = await request("/group/count", "GET");
+				this.count = res.data
 			}
 		},
 		onShow() {
 			this.getGroupList();
+			this.getCount();
 		},
 
 	}

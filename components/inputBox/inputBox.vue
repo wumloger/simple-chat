@@ -52,8 +52,8 @@
 				<!--文字模式-->
 				<view class="text-mode" :class="isVoice?'hidden':''">
 					<view class="box">
-						<textarea ref="textarea" auto-height="true" :adjust-position="false" v-model="textMsg"
-							@focus="textareaFocus" />
+						<textarea ref="textarea" auto-height="true" @keydown.ctrl.enter.native="keyDown"
+							:adjust-position="false" v-model="textMsg" @focus="textareaFocus" />
 					</view>
 					<view class="em" @tap="chooseEmoji">
 						<view style="font-size: 30px" class="text-gray cuIcon-emoji"></view>
@@ -259,6 +259,10 @@
 				// }
 				this.hideDrawer()
 			},
+			keyDown(e) {
+				this.sendText();
+			},
+
 			// 发送文字消息
 			sendText() {
 

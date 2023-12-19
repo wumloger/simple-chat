@@ -69,7 +69,7 @@
 				userInfo: null,
 				pageNo: 1,
 				baseParam: {},
-				topSize: '',
+				topSize: this.CustomBar + 'px',
 				//监听键盘调整高度
 				msgHeight: '108upx',
 				inputBoxHeight: -2

@@ -14,8 +14,20 @@
 			</view>
 		</view>
 		<view class="msg" :class="position" v-else>
-			<u-avatar :src="avatar" size="40" @click="friendInfo"></u-avatar>
+			<div style="position: relative; text-align: center;" v-if="position=='right'">
+				<u-avatar :src="avatar" size="40" @click="friendInfo"></u-avatar>
+				<u-text class="nickname"
+					style="position: absolute; top: -14upx; left: -120upx; width: 100upx; transform: translateY(-50%);white-space: nowrap;"
+					:text="nickname" type="tips" size="10" align="right"></u-text>
+			</div>
+			<div style="position: relative; text-align: center;" v-else>
+				<u-avatar :src="avatar" size="40" @click="friendInfo"></u-avatar>
+				<u-text class="nickname"
+					style="position: absolute; top: -14upx; left:100upx; width: 100upx; transform: translateY(-50%);white-space: nowrap;"
+					:text="nickname" type="tips" size="10" align="left"></u-text>
+			</div>
 			<view class="content" :class="[status!=2?type:'']">
+
 				<view v-if="msgType==1 || status==2">
 					<u-tooltip :text="content" v-if="position=='right'" :buttons="['撤回','删除']"
 						@click="tooltip"></u-tooltip>
@@ -35,6 +47,7 @@
 					<u-parse :content="formatVideo(content)"></u-parse>
 				</view>
 			</view>
+
 		</view>
 	</view>
 </template>

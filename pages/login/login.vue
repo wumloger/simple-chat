@@ -36,7 +36,7 @@
 			<button type="primary" class="bg-gradual-blue margin-top-sm" @click="register">注册</button>
 		</view>
 		<view class="text text-center">
-			<text class="text-xs text-cyan">忘记密码？点我找回</text>
+			<text class="text-xs text-cyan" @tap="toRePassword">忘记密码？点我找回</text>
 		</view>
 		<u-toast ref="uToast"></u-toast>
 	</view>
@@ -132,6 +132,12 @@
 			sectionChange(index) {
 				this.current = index;
 			},
+			toRePassword() {
+				console.log("click");
+				uni.navigateTo({
+					url: '/pages/index'
+				})
+			},
 			async register() {
 				const _this = this;
 				const res = await request("/user/register", "POST", {
@@ -154,6 +160,7 @@
 				}
 			}
 		}
+
 	}
 </script>
 

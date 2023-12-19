@@ -25,9 +25,9 @@
 			</u-cell>
 		</u-cell-group>
 		<u-cell-group :customStyle="{backgroundColor:'white',margin:'10upx'}">
-			<u-cell icon="fingerprint" title="个人信息" :isLink="true"></u-cell>
-			<u-cell icon="lock" title="账号安全" :isLink="true"></u-cell>
-			<u-cell icon="question-circle" title="关于软件" :isLink="true"></u-cell>
+			<u-cell icon="fingerprint" title="个人信息" :isLink="true" url="/pages/home/mine/mine"></u-cell>
+			<u-cell icon="lock" title="账号安全" :isLink="true" url="/pages/home/safe/safe"></u-cell>
+			<u-cell icon="question-circle" title="关于软件" :isLink="true" url="/pages/home/about/about"></u-cell>
 		</u-cell-group>
 		<view style="backgroundColor:white;margin:10upx;margin-top: 30upx;">
 			<u-button type="primary" text="退出" @tap="exit"></u-button>

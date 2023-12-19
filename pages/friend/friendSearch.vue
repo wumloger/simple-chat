@@ -43,18 +43,19 @@
 			<u--text type="info" :block="true" style="padding: 10upx;" text="你可能认识"></u--text>
 			<u-line></u-line>
 			<view class=" cu-list menu-avatar" style="border-top: none;">
-				<view class=" cu-item" v-for="(cell, index) in recommendList" @tap="toFriendInfo(cell.id)">
+				<view class=" cu-item" v-for="(cell, index) in recommendList" @tap="toFriendInfo(cell.friendId)">
 					<view class="cu-avatar round lg" :style="[{backgroundImage:'url('+cell.avatar+')'}]">
 					</view>
 					<view class="content">
-						<view class="text-grey">{{cell.username}}({{cell.id}})</view>
+						<view class="text-grey">{{cell.nickname}}({{cell.friendId}})</view>
 						<view class="text-gray text-sm flex">
 							<view class="text-cut">
-								<text>昵称:{{cell.nickname}}</text>
+								<text>拥有共同好友{{cell.num}}人</text>
 							</view>
 						</view>
 					</view>
-					<view v-if="!cell.isFriend" class="action" @tap.stop="addFriend(cell.id,cell.nickname,cell.avatar)">
+					<view v-if="!cell.isFriend" class="action"
+						@tap.stop="addFriend(cell.friendId,cell.nickname,cell.avatar)">
 
 						<u-button type="info" shape="circle" text="加好友" size="mini"></u-button>
 					</view>
@@ -179,14 +180,14 @@
 					url: '/pages/friend/friendInfo?id=' + id
 				})
 			},
-			addFriend(id, nickname, avatar) {
+			addFriend(friendId, nickname, avatar) {
 				console.log("加好友");
 				const userInfo = uni.getStorageSync("userInfo")
 				let invitation = {
 					userId: userInfo.id,
 					userNickname: userInfo.nickname,
 					userAvatar: userInfo.avatar,
-					friendId: id,
+					friendId: friendId,
 					friendNickname: nickname,
 					friendAvatar: avatar,
 				}
@@ -205,11 +206,17 @@
 					}
 				})
 			},
+			getRecommend() {
+				request("/friend/recommend", "GET").then((res) => {
+					this.recommendList = res.data;
+				})
+			},
 
 		},
 		async onShow() {
 			const res = await request("/friend/list");
 			this.friends = res.data;
+			this.getRecommend();
 		},
 		onLoad() {
 			this.userId = uni.getStorageSync("userInfo").id;

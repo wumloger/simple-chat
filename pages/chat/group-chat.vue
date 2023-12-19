@@ -73,7 +73,8 @@
 				//监听键盘调整高度
 				msgHeight: '108upx',
 				inputBoxHeight: -2,
-				id: ''
+				id: '',
+				topSize: this.CustomBar + 'px'
 			}
 		},
 
@@ -86,6 +87,8 @@
 			this.initScroll();
 			this.userInfo = uni.getStorageSync("userInfo");
 			this.userId = uni.getStorageSync("userInfo").id;
+			//消息头部距离
+
 			//获取群组信息
 			this.getGroupInfo(id);
 
