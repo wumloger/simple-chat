@@ -225,7 +225,8 @@
 </script>
 
 <style lang="scss">
-	.searchList {
+	.searchList,
+	.recommedList {
 		background-color: white;
 		margin: 10upx;
 

@@ -117,6 +117,9 @@
 
 
 		},
+		onUnload() {
+			// uni.offKeyboardHeightChange(this.listener())
+		},
 
 		methods: {
 			async init() {
@@ -311,10 +314,14 @@
 			},
 			//键盘下拉事件
 			onKeyboardHeightChange(height) {
+				let _sysInfo = uni.getSystemInfoSync()
+				const _statusBarHeight = _sysInfo.statusBarHeight;
+				console.log(_sysInfo);
 				if (height > 0) {
-					let val = 108 + height * 2 - 65;
+					let val = 108 + (height * 2 - _statusBarHeight * 2);
+					console.log(val);
 					this.msgHeight = val + 'upx';
-					this.inputBoxHeight = -2 + height * 2 - 65;
+					this.inputBoxHeight = -2 + (height - _statusBarHeight) * 2;
 					this.$nextTick(function() {
 						this.mescroll.scrollTo(99999, 0)
 					})

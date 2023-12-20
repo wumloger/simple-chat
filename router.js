@@ -7,6 +7,7 @@ const whiteList = [
 	// 支持正则表达式   { pattern: /^\/pages\/list.*/ }, 
 	'/pages/login/login',
 	'/pages/index',
+	'/pages/start'
 ]
 
 export default async function() {

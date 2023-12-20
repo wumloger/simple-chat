@@ -1,5 +1,12 @@
 {
 	"pages": [{
+			"path": "pages/start",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
 			"path": "pages/login/login",
 			"style": {
 				"navigationBarTitleText": "",
@@ -159,6 +166,7 @@
 				"enablePullDownRefresh": false
 			}
 		}
+
 
 	],
 	"app-plus": {

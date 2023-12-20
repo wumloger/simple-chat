@@ -14,7 +14,7 @@
 					<view class="text-grey">{{cell.userNickname}}</view>
 					<view class="text-gray text-sm flex">
 						<view class="text-cut">
-							<text v-if="cell.remark != null">备注：{{cell.remark}}</text>
+							<text v-if="cell.remark != null">申请进入{{cell.groupName}}<br>备注：{{cell.remark}}</text>
 							<text v-else>备注：无</text>
 						</view>
 					</view>

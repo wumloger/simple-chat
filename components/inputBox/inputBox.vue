@@ -52,7 +52,7 @@
 				<!--文字模式-->
 				<view class="text-mode" :class="isVoice?'hidden':''">
 					<view class="box">
-						<textarea ref="textarea" auto-height="true" @keydown.ctrl.enter.native="keyDown"
+						<textarea ref="textarea" auto-height="true" @keydown.ctrl.enter.prevent="keyDown"
 							:adjust-position="false" v-model="textMsg" @focus="textareaFocus" />
 					</view>
 					<view class="em" @tap="chooseEmoji">

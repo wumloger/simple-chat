@@ -1,13 +1,13 @@
 <template>
 
-	<view class="container" style="background-color: #FCFCFC;">
+	<view class="container" style="background-color: #ffffff;">
 		<cu-custom bgColor="bg-gradual-blue">
 			<block slot="content">登录</block>
 		</cu-custom>
 		<u-subsection :list="list" :current="current" @change="sectionChange" mode="subsection">
 		</u-subsection>
 		<view class="text-center padding" style="margin-top: 70upx;" v-show="current == 0">
-			<image src="../../static/img/logo.png"></image>
+			<image src="../../static/img/logo.png" mode="aspectFit"></image>
 			<u-form :model="form" ref="uForm1">
 				<u-form-item label="用户名" label-width="50" :required="true" prop="username">
 					<u-input v-model="form.username" type="text" />
@@ -20,7 +20,7 @@
 			<button type="primary" class="bg-gradual-blue margin-top-sm" @click="login">登录</button>
 		</view>
 		<view class="text-center padding" style="margin-top: 70upx;" v-show="current == 1">
-			<image src="../../static/img/logo.png"></image>
+			<image src="../../static/img/logo.png" mode="aspectFit"></image>
 			<u-form :model="form" ref="uForm2">
 				<u-form-item label="用户名" label-width="50" :required="true" prop="username">
 					<u-input v-model="form.username" type="text" />

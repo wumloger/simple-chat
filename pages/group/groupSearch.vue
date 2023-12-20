@@ -36,7 +36,7 @@
 
 			</view>
 		</view>
-		<view class="recommedList" v-else>
+		<!-- <view class="recommedList" v-else>
 			<u--text type="info" :block="true" style="padding: 10upx;" text="你可能想加入"></u--text>
 			<u-line></u-line>
 			<view class=" cu-list menu-avatar" style="border-top: none;">
@@ -54,7 +54,7 @@
 				</view>
 
 			</view>
-		</view>
+		</view> -->
 
 		<u-picker :show="show" :columns="columns" @cancel="show = false" @confirm="selected" keyName="label"
 			:defaultIndex="[0]"></u-picker>
