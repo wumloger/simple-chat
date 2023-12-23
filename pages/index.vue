@@ -31,7 +31,7 @@
 	export default {
 		data() {
 			return {
-				email: '2975800991@qq.com',
+				email: '',
 				code: '',
 				password: '',
 				rePassword: '',

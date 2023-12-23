@@ -9,7 +9,8 @@
 			</block>
 		</cu-custom>
 		<template v-if="groupInfo">
-			<u-cell-group :customStyle="{backgroundColor:'white',margin:'10upx',padding:'20upx',paddingLeft:'10upx'}">
+			<u-cell-group :border="false"
+				:customStyle="{backgroundColor:'white',margin:'10upx',padding:'20upx',paddingLeft:'10upx'}">
 				<u-text text="点击更换头像" type="tips" style="padding-left:10upx;"></u-text>
 				<u-upload :disabled="edit" :fileList="fileList" :deletable="true" @delete="deletePic"
 					@afterRead="afterRead" name="avatar" style="margin:0 auto;" :previewImage="false" accept="image">
@@ -22,15 +23,18 @@
 			</u-cell-group>
 			<u-cell-group :customStyle="{backgroundColor:'white',margin:'10upx'}">
 				<u-text text="群名" type="tips" style="padding-left:10upx;"></u-text>
-				<u-input border="bottom" :disabled="edit" v-model="groupInfo.name"></u-input>
+				<u-input style="background-color: white;" border="bottom" :disabled="edit"
+					v-model="groupInfo.name"></u-input>
 			</u-cell-group>
 			<u-cell-group :customStyle="{backgroundColor:'white',margin:'10upx'}">
 				<u-text text="介绍" type="tips" style="padding-left:10upx;"></u-text>
-				<u--textarea v-model="groupInfo.intro" :disabled="edit" border="none"></u--textarea>
+				<u--textarea style="background-color: white;" v-model="groupInfo.intro" :disabled="edit"
+					border="none"></u--textarea>
 			</u-cell-group>
 			<u-cell-group :customStyle="{backgroundColor:'white',margin:'10upx'}">
 				<u-text text="公告" type="tips" style="padding-left:10upx;"></u-text>
-				<u--textarea v-model="groupInfo.notice" :disabled="edit" border="none"></u--textarea>
+				<u--textarea style="background-color: white;" v-model="groupInfo.notice" :disabled="edit"
+					border="none"></u--textarea>
 			</u-cell-group>
 			<u-cell-group v-if="groupInfo.createBy === userId"
 				:customStyle="{backgroundColor:'white',margin:'10upx',marginTop:'40upx'}">
