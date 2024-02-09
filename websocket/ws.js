@@ -50,14 +50,24 @@ class Ws {
 		if (!this.debug) {
 			this.client.debug = () => {}
 		}
+		uni.showLoading({
+			mask: true,
+			title: '连接服务器中'
+		});
 		this.client.connect({},
 			frame => {
+				uni.hideLoading();
 				// 初始化订阅
 				Object.keys(this.subscribes).forEach(key => {
 					this.subscribe(key, this.subscribes[key].callback)
 				})
 			},
 			error => {
+				uni.hideLoading();
+				uni.showToast({
+					title: '聊天服务器连接失败，3秒后尝试重连！',
+					icon: 'error'
+				});
 				// 重连
 				this.reconnectId = setTimeout(() => {
 					this.reconnect()

@@ -46,7 +46,8 @@
 <script>
 	import {
 		request
-	} from '@/api/request.js'
+	} from '@/api/request.js';
+	import ws from '@/websocket/ws.js';
 	export default {
 		data() {
 			return {
@@ -79,6 +80,11 @@
 					console.log(res);
 					if (res.code == 200) {
 						uni.removeStorageSync("create");
+						ws.subscribe("/topic/groups/" + res.data, (res) => {
+							console.log(res.body);
+							const message = JSON.parse(res.body);
+							this.$EventBus.$emit("group:" + res.data, message);
+						})
 						this.$refs.uToast.show({
 							message: '创建成功！',
 							type: 'success',

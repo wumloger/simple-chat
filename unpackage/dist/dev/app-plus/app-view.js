@@ -1639,7 +1639,7 @@ if(false) {}
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ./node_modules/css-loader/dist/runtime/api.js */ 13);
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, ".uni-input {\n  height: 40px;\n}\n.modal {\n  z-index: 999;\n  height: -webkit-fit-content;\n  height: fit-content;\n  width: 280upx;\n  position: absolute;\n  top: 60upx;\n  left: -232upx;\n  border-radius: 5%;\n}\n.modal div {\n  width: 100%;\n  background-color: white;\n  height: 100upx;\n  color: black;\n  text-align: center;\n  line-height: 100upx;\n  border-radius: 5%;\n}\n.modal div:active {\n  background-color: #f5f5f5;\n}\n.modal::before {\n  content: '';\n  height: 10%;\n  width: 10%;\n  background-color: white;\n  position: absolute;\n  top: -4%;\n  left: 82%;\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n}\n.move-cur130 {\n  -webkit-transform: translateX(-130upx);\n          transform: translateX(-130upx);\n}\n", ""]);
+exports.push([module.i, ".uni-input {\n  height: 40px;\n}\n.modal {\n  z-index: 999;\n  height: -webkit-fit-content;\n  height: fit-content;\n  width: 280upx;\n  position: absolute;\n  top: 60upx;\n  left: -232upx;\n  border-radius: 5%;\n}\n.modal div {\n  width: 100%;\n  background-color: white;\n  height: 100upx;\n  color: black;\n  text-align: center;\n  line-height: 100upx;\n  border-radius: 5%;\n}\n.modal div:active {\n  background-color: #f5f5f5;\n}\n.modal::before {\n  content: '';\n  height: 10%;\n  width: 10%;\n  background-color: white;\n  position: absolute;\n  top: -4%;\n  left: 82%;\n  -webkit-transform: rotate(-45deg);\n          transform: rotate(-45deg);\n}\n.cu-list > .cu-item.move-cur130 {\n  -webkit-transform: translateX(-130upx);\n          transform: translateX(-130upx);\n}\n", ""]);
 // Exports
 module.exports = exports;
 
@@ -10085,10 +10085,7 @@ var render = function () {
                             [_vm._v(_vm._$g(23, "t0-0"))]
                           ),
                           _vm._$g(24, "i")
-                            ? _c("uni-view", {
-                                staticClass: _vm._$g(24, "sc"),
-                                attrs: { _i: 24 },
-                              })
+                            ? _c("u-icon", { attrs: { _i: 24 } })
                             : _vm._e(),
                         ],
                         1
@@ -19948,6 +19945,9 @@ var render = function () {
                 afterRead: function ($event) {
                   return _vm.$handleViewEvent($event)
                 },
+                oversize: function ($event) {
+                  return _vm.$handleViewEvent($event)
+                },
               },
             },
             [
@@ -20873,6 +20873,9 @@ var render = function () {
                         return _vm.$handleViewEvent($event)
                       },
                       afterRead: function ($event) {
+                        return _vm.$handleViewEvent($event)
+                      },
+                      oversize: function ($event) {
                         return _vm.$handleViewEvent($event)
                       },
                     },

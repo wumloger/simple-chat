@@ -86,6 +86,10 @@
 			async save() {
 				this.edit = true;
 				const _this = this;
+				uni.showLoading({
+					title: '更新中...',
+					mask: true
+				});
 				if (this.fileList.length > 0) {
 
 					uploadFile("/user/oss/uploadAvatar", this.fileList[this.fileList.length - 1]
@@ -107,12 +111,21 @@
 										type: 'error'
 									})
 								}
+								uni.hideLoading();
+							}).catch((err) => {
+								uni.hideLoading();
 							})
 						}
+					}).catch((err) => {
+						uni.hideLoading();
 					})
 
 				} else {
 					console.log(_this.groupInfo);
+					uni.showLoading({
+						title: '更新中...',
+						mask: true
+					});
 					request("/group/update", "POST", _this.groupInfo).then((res) => {
 						if (res.code == 200) {
 							this.$refs.uToast.show({
@@ -125,6 +138,9 @@
 								type: 'error'
 							})
 						}
+						uni.hideLoading();
+					}).catch((err) => {
+						uni.hideLoading();
 					})
 				}
 			},
@@ -141,7 +157,7 @@
 							duration: '1000',
 							complete: () => {
 								uni.switchTab({
-									url: '/pages/index/index'
+									url: '/pages/group/group'
 								})
 							}
 						})

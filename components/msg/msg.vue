@@ -39,9 +39,9 @@
 				</view>
 				<view v-if="msgType==3" :class="{'play':playClass,'right':position=='left'}" @click="play">
 					<!-- <view class="cuIcon-sound" v-if="position=='right'"></view> -->
-					<u-icon name="volume" size="20" v-if="position='right'"></u-icon>&nbsp;
+					<u-icon name="volume" size="20" v-if="position=='right'"></u-icon>&nbsp;
 					<view class="time" color="gray">{{ time }} </view>
-					<view class="cuIcon-sound" v-if="position=='left'"></view>
+					<u-icon name="volume" size="20" v-if="position=='left'"></u-icon>
 				</view>
 				<view v-if="msgType==4" class="video">
 					<u-parse :content="formatVideo(content)"></u-parse>

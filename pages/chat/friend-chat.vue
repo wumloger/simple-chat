@@ -77,6 +77,10 @@
 		},
 
 		onLoad(data) {
+			uni.showLoading({
+				mask: true,
+				title: '加载中...'
+			});
 			this.userId = uni.getStorageSync("userInfo").id;
 			this.userInfo = uni.getStorageSync("userInfo");
 			this.friendId = data.id;
@@ -110,6 +114,7 @@
 			}
 
 			uni.onKeyboardHeightChange(listener)
+			uni.hideLoading();
 			// 需传入与监听时同一个的函数对象
 
 		},
@@ -151,6 +156,10 @@
 			},
 			async sendMsg(msg) {
 				console.log("msg", JSON.stringify(msg))
+				uni.showLoading({
+					mask: true,
+					title: '发送中...'
+				});
 				// 初始化最终返回值
 				let endMsg = {}
 				// 获取发送类型-消息类型(0-系统消息;1-文字;2-图片;3-语音;4-视频)
@@ -174,8 +183,11 @@
 				}
 
 				// 消息发送
+				// 检测与服务器的连接情况
+				ws.connect();
 				ws.send('/app/private/' + this.friendId, JSON.stringify(endMsg));
 				this.pushMsg(endMsg);
+				uni.hideLoading();
 				// endMsg.id = result.data.id
 
 			},
@@ -275,7 +287,9 @@
 			//获取好友信息
 			async getFriendInfo() {
 				const userId = uni.getStorageSync("userInfo").id;
-				const res = await request("/friend/get/" + this.friendId + "/" + userId);
+				const res = await request("/friend/get/" + this.friendId + "/" + userId).catch((err) => {
+					uni.hideLoading();
+				});
 				this.friendInfo = res;
 				console.log(res);
 			},

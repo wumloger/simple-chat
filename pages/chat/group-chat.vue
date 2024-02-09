@@ -79,6 +79,10 @@
 		},
 
 		onLoad(data) {
+			uni.showLoading({
+				mask: true,
+				title: '加载中...'
+			});
 			const id = data.id;
 			this.id = id;
 			console.log(id);
@@ -91,6 +95,7 @@
 
 			//获取群组信息
 			this.getGroupInfo(id);
+
 
 			//监听事件总线
 			const _this = this
@@ -112,6 +117,7 @@
 			}
 
 			uni.onKeyboardHeightChange(listener)
+			uni.hideLoading();
 			// 需传入与监听时同一个的函数对象
 
 		},
@@ -153,11 +159,17 @@
 				}, 1000)
 			},
 			async getGroupInfo(id) {
-				const res = await request("/group/get/" + id);
+				const res = await request("/group/get/" + id).catch((err) => {
+					uni.hideLoading();
+				});
 				console.log(res);
 				this.groupInfo = res.data;
 			},
 			async sendMsg(msg) {
+				uni.showLoading({
+					mask: true,
+					title: '发送中...'
+				});
 				const {
 					id,
 					nickname,
@@ -200,6 +212,7 @@
 				ws.send('/app/groups/' + this.groupInfo.id, JSON.stringify(endMsg));
 				this.pushMsg(endMsg);
 				// endMsg.id = result.data.id
+				uni.hideLoading();
 
 			},
 			// 转化文字

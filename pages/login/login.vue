@@ -95,11 +95,18 @@
 		},
 		methods: {
 			async login() {
+				uni.showLoading({
+					mask: true,
+					title: '登录中',
+				});
 				const res = await request('/user/login', 'POST', {
 					username: this.form.username,
 					password: this.form.password
+				}).catch((err) => {
+					uni.hideLoading();
 				})
 				console.log(res);
+				uni.hideLoading();
 				if (res.code === '200') {
 					uni.setStorageSync("token", res.data);
 					//解析token

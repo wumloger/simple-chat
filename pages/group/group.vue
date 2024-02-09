@@ -56,7 +56,10 @@
 		},
 		methods: {
 			async getGroupList() {
-				const res = await request("/group/list", "GET")
+
+				const res = await request("/group/list", "GET").catch((err) => {
+
+				})
 				console.log(res);
 				const groups = res.data;
 				const userId = uni.getStorageSync("userInfo").id;
@@ -71,6 +74,7 @@
 						this.itemArr[1].push(group);
 					}
 				})
+
 			},
 			toGroup(id) {
 				uni.navigateTo({

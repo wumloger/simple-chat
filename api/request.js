@@ -3,7 +3,7 @@
  *
  */
 // const BASE_URL = 'http://localhost:8000';
-export const BASE_URL = "http://10.20.236.96:8000";
+export const BASE_URL = "http://192.168.3.6:8000";
 export function request(url, method, data) {
 	let token = '';
 	// console.log(typeof(uni.getStorageSync('token').token));

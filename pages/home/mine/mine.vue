@@ -13,7 +13,8 @@
 				:border="false">
 				<u-text text="点击更换头像" type="tips" style="padding-left:10upx;"></u-text>
 				<u-upload :disabled="edit" :fileList="fileList" :deletable="true" @delete="deletePic"
-					@afterRead="afterRead" name="avatar" style="margin:0 auto;" :previewImage="false" accept="image">
+					@afterRead="afterRead" name="avatar" style="margin:0 auto;" :previewImage="false" accept="image"
+					:max-size="50 * 1024" @oversize="overSize()">
 					<div style="width: 160upx; height: 160upx; border-radius: 50%; overflow: hidden;">
 						<img v-if="fileList.length > 0" :src="fileList[fileList.length - 1].url"
 							style="width: 100%; height: 100%;border-radius:50%;" />
@@ -68,6 +69,7 @@
 		request,
 		uploadFile
 	} from '@/api/request.js';
+
 	export default {
 		data() {
 			return {
@@ -91,6 +93,15 @@
 			}
 		},
 		methods: {
+			// 图片过大处理
+			overSize() {
+				this.$refs.uToast.show({
+					message: '图片大小不能超过5kB',
+					type: 'warning',
+					duration: '1000',
+					position: 'top'
+				})
+			},
 			// 删除图片
 			deletePic(event) {
 				this.fileList = [];
@@ -99,11 +110,7 @@
 			async afterRead(event) {
 				console.log(event);
 				this.fileList.push(event.file)
-				uploadFile("/user/oss/uploadAvatar", this.fileList[this.fileList.length - 1].url).then((res) => {
-					const data = JSON.parse(res);
-					this.userInfo.avatar = data.data.split("?")[0];
-				})
-				console.log(this.fileList);
+
 			},
 			convertTimestamp(timestamp) {
 				const date = new Date(timestamp);
@@ -131,25 +138,65 @@
 			},
 			save() {
 				const _this = this;
-				request("/user/updateUser", "PUT", this.userInfo).then((res) => {
-
-					if (res.code == 200) {
-						uni.setStorageSync("userInfo", _this.userInfo);
-						this.$refs.uToast.show({
-							message: '修改成功',
-							type: 'success',
-							duration: '1000'
+				uni.showLoading({
+					mask: true,
+					title: '更新中...'
+				});
+				if (this.fileList.length > 0) {
+					console.log(this.fileList);
+					uploadFile("/user/oss/uploadAvatar", this.fileList[this.fileList.length - 1].url).then((res) => {
+						const data = JSON.parse(res);
+						this.userInfo.avatar = data.data.split("?")[0];
+						request("/user/updateUser", "PUT", this.userInfo).then((res) => {
+							if (res.code == 200) {
+								uni.setStorageSync("userInfo", _this.userInfo);
+								this.$refs.uToast.show({
+									message: '修改成功',
+									type: 'success',
+									duration: '1000',
+									position: 'top'
+								})
+							} else {
+								this.$refs.uToast.show({
+									message: '修改失败' + res.msg,
+									type: 'error',
+									duration: '1000',
+									position: 'top'
+								})
+							}
+							this.getUserInfo();
+							uni.hideLoading();
+						}).catch((err) => {
+							uni.hideLoading();
 						})
-					} else {
-						this.$refs.uToast.show({
-							message: '修改失败' + res.msg,
-							type: 'error',
-							duration: '1000'
-						})
-					}
-					this.getUserInfo();
-				})
+					}).catch((err) => {
+						uni.hideLoading();
+					})
+				} else {
+					request("/user/updateUser", "PUT", this.userInfo).then((res) => {
 
+						if (res.code == 200) {
+							uni.setStorageSync("userInfo", _this.userInfo);
+							this.$refs.uToast.show({
+								message: '修改成功',
+								type: 'success',
+								duration: '1000',
+								position: 'top'
+							})
+						} else {
+							this.$refs.uToast.show({
+								message: '修改失败' + res.msg,
+								type: 'error',
+								duration: '1000',
+								position: 'top'
+							})
+						}
+						this.getUserInfo();
+						uni.hideLoading();
+					}).catch((err) => {
+						uni.hideLoading();
+					})
+				}
 				this.edit = true;
 			},
 			getUserInfo() {

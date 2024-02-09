@@ -58,7 +58,11 @@
 		},
 		methods: {
 			async getFriends() {
-				const res = await request("/friend/list");
+
+				const res = await request("/friend/list").catch((err) => {
+					console.log(err);
+				});
+				console.log(res);
 				let list = res.data;
 				// 获取所有不重复的字母
 				let alphabeticArr = list.map(friend => friend.alphabetic);
@@ -74,6 +78,7 @@
 					this.indexList.push(letter);
 					this.itemArr.push(friendsByLetter);
 				});
+
 			},
 			toFriendInfo(id) {
 				uni.navigateTo({

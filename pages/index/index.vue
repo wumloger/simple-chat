@@ -73,18 +73,20 @@
 		onShow() {
 			//获取消息列表
 			const userId = uni.getStorageSync("userInfo").id;
-			this.getMessageList(userId);
-			// 模拟获取token，此步操作应在登录时去做
+
+
 			ws.connect();
 			//订阅私人队列
 			ws.subscribe("/user/" + userId + "/queue/private", (res) => {
 				console.log(res.body);
 				const message = JSON.parse(res.body);
 				this.$EventBus.$emit("private:" + userId, message);
-
 			});
 			//订阅群组
 			this.getGroupsAndSubscribe();
+
+			// 获取消息列表
+			this.getMessageList(userId);
 		},
 		methods: {
 			async getGroupsAndSubscribe() {
@@ -100,8 +102,16 @@
 				uni.setStorageSync("groupList", groupList)
 			},
 			async getMessageList(userId) {
-				const res = await request("/message/getUnread/" + userId);
+				this.messageList = [];
+				uni.showLoading({
+					mask: true,
+					title: '加载中',
+				});
+				const res = await request("/message/getUnread/" + userId).catch((err) => {
+					uni.hideLoading();
+				});
 				this.messageList = res.data;
+				uni.hideLoading();
 				console.log(res);
 			},
 
@@ -214,7 +224,9 @@
 		transform: rotate(-45deg);
 	}
 
-	.move-cur130 {
+	// .move-cur130 {}
+
+	.cu-list>.cu-item.move-cur130 {
 		transform: translateX(-130upx)
 	}
 </style>
