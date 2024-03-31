@@ -92,6 +92,7 @@
 			this.init();
 			// 初始化滚动相关信息
 			this.initScroll();
+
 			//获取好友信息
 			this.getFriendInfo();
 			//监听事件总线
@@ -150,10 +151,11 @@
 			// 滚动初始化
 			mescrollInit(mescroll) {
 				this.mescroll = mescroll;
-				setTimeout(() => {
-					mescroll.scrollTo(99999, 0);
-				}, 1000)
+				this.$nextTick(() => {
+					this.mescroll.scrollTo(9999, 0);
+				})
 			},
+
 			async sendMsg(msg) {
 				console.log("msg", JSON.stringify(msg))
 				uni.showLoading({
@@ -184,7 +186,7 @@
 
 				// 消息发送
 				// 检测与服务器的连接情况
-				ws.connect();
+				// ws.connect();
 				ws.send('/app/private/' + this.friendId, JSON.stringify(endMsg));
 				this.pushMsg(endMsg);
 				uni.hideLoading();

@@ -154,9 +154,9 @@
 			// 滚动初始化
 			mescrollInit(mescroll) {
 				this.mescroll = mescroll;
-				setTimeout(() => {
-					mescroll.scrollTo(99999, 0);
-				}, 1000)
+				this.$nextTick(() => {
+					this.mescroll.scrollTo(9999, 0);
+				})
 			},
 			async getGroupInfo(id) {
 				const res = await request("/group/get/" + id).catch((err) => {
