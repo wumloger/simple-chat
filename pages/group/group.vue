@@ -58,7 +58,7 @@
 			async getGroupList() {
 
 				const res = await request("/group/list", "GET").catch((err) => {
-
+					console.log(err);
 				})
 				console.log(res);
 				const groups = res.data;

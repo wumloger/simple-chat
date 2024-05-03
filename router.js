@@ -6,8 +6,7 @@ const whiteList = [
 	// 注意入口页必须直接写 '/'
 	// 支持正则表达式   { pattern: /^\/pages\/list.*/ }, 
 	'/pages/login/login',
-	'/pages/index',
-	'/pages/start'
+	'/pages/index'
 ]
 
 export default async function() {

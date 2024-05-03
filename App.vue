@@ -3,9 +3,22 @@
 	import request from '@/api/request.js'
 	import Vue from 'vue';
 	import router from './router.js';
-	router();
+	// router();
 	export default {
 		onLaunch: function() {
+			const token = uni.getStorageSync('token');
+			if(!token){
+				uni.reLaunch({
+					url:"/pages/login/login",
+					success:()=>{
+						//跳转完页面后再关闭启动页
+						plus.navigator.closeSplashscreen();
+					}
+				})
+			}else{
+				//存在则关闭启动页进入首页
+				plus.navigator.closeSplashscreen();
+			}
 			uni.getSystemInfo({
 				success: function(e) {
 					// #ifndef MP

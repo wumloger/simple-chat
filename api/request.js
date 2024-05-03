@@ -2,8 +2,9 @@
  * 封装uniapp的request
  *
  */
+import {baseUrl as BASE_URL} from '../config/config.js'
 // const BASE_URL = 'http://localhost:8000';
-export const BASE_URL = "http://192.168.31.147:8000";
+// export const BASE_URL = "http://192.168.31.147:8000";
 export function request(url, method, data) {
 	let token = '';
 	// console.log(typeof(uni.getStorageSync('token').token));

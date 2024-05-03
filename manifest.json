@@ -11,9 +11,9 @@
         "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
         "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
+            "alwaysShowBeforeRender" : false,
             "waiting" : true,
-            "autoclose" : true,
+            "autoclose" : false,
             "delay" : 0
         },
         /* 模块配置 */
@@ -57,14 +57,17 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "D:/pictures/截图/logo.png",
-                    "xhdpi" : "D:/pictures/截图/logo.png",
-                    "xxhdpi" : "D:/pictures/截图/logo.png",
-                    "xxxhdpi" : "D:/pictures/截图/logo.png"
+                    "hdpi" : "static/img/logo.png",
+                    "xhdpi" : "static/img/logo.png",
+                    "xxhdpi" : "static/img/logo.png",
+                    "xxxhdpi" : "static/img/logo.png"
                 },
                 "ios" : {
-                    "appstore" : "D:/pictures/截图/logo.png"
+                    "appstore" : "static/img/logo.png"
                 }
+            },
+            "splashscreen" : {
+                "androidStyle" : "common"
             }
         }
     },

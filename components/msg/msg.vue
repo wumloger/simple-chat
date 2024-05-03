@@ -16,37 +16,43 @@
 		<view class="msg" :class="position" v-else>
 			<div style="position: relative; text-align: center;" v-if="position=='right'">
 				<u-avatar :src="avatar" size="40" @click="friendInfo"></u-avatar>
-				<u-text class="nickname"
+<!-- 				<u-text class="nickname"
 					style="position: absolute; top: -14upx; left: -120upx; width: 100upx; transform: translateY(-50%);white-space: nowrap;"
-					:text="nickname" type="tips" size="10" align="right"></u-text>
+					:text="nickname" type="tips" size="10" align="right"></u-text> -->
 			</div>
 			<div style="position: relative; text-align: center;" v-else>
 				<u-avatar :src="avatar" size="40" @click="friendInfo"></u-avatar>
-				<u-text class="nickname"
+	<!-- 			<u-text class="nickname"
 					style="position: absolute; top: -14upx; left:100upx; width: 100upx; transform: translateY(-50%);white-space: nowrap;"
-					:text="nickname" type="tips" size="10" align="left"></u-text>
+					:text="nickname" type="tips" size="10" align="left"></u-text> -->
 			</div>
-			<view class="content" :class="[status!=2?type:'']">
 
-				<view v-if="msgType==1 || status==2">
-					<u-tooltip :text="content" v-if="position=='right'" :buttons="['撤回','删除']"
-						@click="tooltip"></u-tooltip>
-					<u-tooltip :text="content" v-else></u-tooltip>
+				<view class="box" style="max-width: 70%;min-height: 42upx;">
+					<u-text v-if="position === 'left'" class="nickname"
+						:text="nickname" type="tips" size="10" align="left" :block="true"></u-text>
+					<view class="content" :class="[status!=2?type:'']">					
+						<view v-if="msgType==1 || status==2">
+							<u-tooltip :text="content" v-if="position=='right'" :buttons="['撤回','删除']"
+								@click="tooltip"></u-tooltip>
+							<u-tooltip :text="content" v-else></u-tooltip>
+						</view>
+						<view v-if="msgType==2">
+							<u--image :showLoading="true" :src="content" width="80px" height="80px" @click="imgPreview"
+								@load="ready"></u--image>
+						</view>
+						<view v-if="msgType==3" :class="{'play':playClass,'right':position=='left'}" @click="play">
+							<!-- <view class="cuIcon-sound" v-if="position=='right'"></view> -->
+							<u-icon name="volume" size="20" v-if="position=='right'"></u-icon>&nbsp;
+							<view class="time" color="gray">{{ time }} </view>
+							<u-icon name="volume" size="20" v-if="position=='left'"></u-icon>
+						</view>
+						<view v-if="msgType==4" class="video">
+							<u-parse :content="formatVideo(content)"></u-parse>
+						</view>
+					</view>
 				</view>
-				<view v-if="msgType==2">
-					<u--image :showLoading="true" :src="content" width="80px" height="80px" @click="imgPreview"
-						@load="ready"></u--image>
-				</view>
-				<view v-if="msgType==3" :class="{'play':playClass,'right':position=='left'}" @click="play">
-					<!-- <view class="cuIcon-sound" v-if="position=='right'"></view> -->
-					<u-icon name="volume" size="20" v-if="position=='right'"></u-icon>&nbsp;
-					<view class="time" color="gray">{{ time }} </view>
-					<u-icon name="volume" size="20" v-if="position=='left'"></u-icon>
-				</view>
-				<view v-if="msgType==4" class="video">
-					<u-parse :content="formatVideo(content)"></u-parse>
-				</view>
-			</view>
+
+			
 
 		</view>
 	</view>
@@ -110,7 +116,7 @@
 			// 头像
 			avatar: {
 				type: String,
-				default: '/static/img/javadog.png'
+				default: 'https://pic.imgdb.cn/item/6523f17dc458853aef61feba.png'
 			},
 			// 语音时间
 			time: {
@@ -215,17 +221,20 @@
 		background: #F5F5F5;
 		padding: 0 20upx 0;
 		display: flex;
-
-		.content {
-			padding: 16upx;
-			max-width: 70%;
-			min-height: 42upx;
-			border-radius: 10upx;
-			padding: 14upx 20upx;
-			display: flex;
-			align-items: center;
-			font-size: 32upx;
-			word-break: break-word;
+		.box{	
+			.content {
+				padding: 16upx;
+				// max-width: 70%;
+				width: 100%;
+				// min-height: 42upx;
+				border-radius: 10upx;
+				padding: 14upx 20upx;
+				display: flex;
+				align-items: center;
+				font-size: 32upx;
+				word-break: break-word;
+			}
+			
 		}
 
 		.video {
@@ -248,19 +257,33 @@
 	}
 
 	.left {
-		.content {
+		.box>.nickname{
+			// margin-left: 12upx;
+			padding-left: 16upx;
+			padding-bottom: 4upx;
+		}
+		.box>.content {
 			margin-left: 12upx;
 			background: #FFFFFF;
 		}
+
+
 	}
 
 	.right {
 		flex-direction: row-reverse;
-
-		.content {
-			margin-right: 12upx;
-			background: #95EC69;
+		// .box>.nickname{
+		// 	padding-right: 16upx;
+		// 	padding-bottom: 4upx;
+		// }
+		.box{
+			padding: 10upx;
 		}
+		.box>.content {
+				margin-right: 12upx;
+				background: #95EC69;
+			}
+
 	}
 
 	.image,
