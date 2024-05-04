@@ -14,7 +14,7 @@
 				<u-text text="点击更换头像" type="tips" style="padding-left:10upx;"></u-text>
 				<u-upload :disabled="edit" :fileList="fileList" :deletable="true" @delete="deletePic"
 					@afterRead="afterRead" name="avatar" style="margin:0 auto;" :previewImage="false" accept="image"
-					:max-size="50 * 1024" @oversize="overSize()">
+					:max-size="1024 * 1024" @oversize="overSize()">
 					<div style="width: 160upx; height: 160upx; border-radius: 50%; overflow: hidden;">
 						<img v-if="fileList.length > 0" :src="fileList[fileList.length - 1].url"
 							style="width: 100%; height: 100%;border-radius:50%;" />
@@ -96,7 +96,7 @@
 			// 图片过大处理
 			overSize() {
 				this.$refs.uToast.show({
-					message: '图片大小不能超过5kB',
+					message: '图片大小不能超过1M',
 					type: 'warning',
 					duration: '1000',
 					position: 'top'

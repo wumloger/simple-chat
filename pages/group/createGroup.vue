@@ -9,7 +9,7 @@
 			:customStyle="{backgroundColor:'white',margin:'10upx',padding:'20upx',paddingLeft:'10upx'}">
 			<u-text text="点击上传头像" type="tips" style="padding-left:10upx;"></u-text>
 			<u-upload :fileList="fileList" :deletable="true" @delete="deletePic" @afterRead="afterRead" name="avatar"
-				style="margin:0 auto;" :previewImage="false" accept="image" :maxSize="500 * 1024" @oversize="overSize">
+				style="margin:0 auto;" :previewImage="false" accept="image" :maxSize="1024 * 1024" @oversize="overSize">
 				<div style="width: 160upx; height: 160upx; border-radius: 50%; overflow: hidden;">
 					<img v-if="fileList.length > 0" :src="fileList[fileList.length - 1].url"
 						style="width: 100%; height: 100%;border-radius:50%;" />
@@ -56,7 +56,7 @@
 			// 图片过大处理
 			overSize() {
 				this.$refs.uToast.show({
-					message: '图片大小不能超过5kB',
+					message: '图片大小不能超过1M',
 					type: 'warning',
 					duration: '1000',
 					position: 'top'

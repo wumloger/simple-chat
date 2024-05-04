@@ -54,7 +54,22 @@
 				count: 0
 			}
 		},
+		onShow(){
+		this.getGroupsAndSubscribe();	
+		},
 		methods: {
+			async getGroupsAndSubscribe() {
+				const res = await request("/group/list", "GET");
+				const groupList = res.data;
+				for (let i = 0; i < groupList.length; i++) {
+					ws.subscribe("/topic/groups/" + groupList[i].id, (res) => {
+						console.log(res.body);
+						const message = JSON.parse(res.body);
+						this.$EventBus.$emit("group:" + groupList[i].id, message);
+					})
+				}
+				uni.setStorageSync("groupList", groupList)
+			},
 			async getGroupList() {
 
 				const res = await request("/group/list", "GET").catch((err) => {
